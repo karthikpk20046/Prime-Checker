@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prime Number Checker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        input, button {
+            padding: 8px;
+            margin: 5px;
+        }
+        #result {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Prime Number Checker</h1>
+    <input type="number" id="numberInput" placeholder="Enter a number">
+    <button onclick="checkPrime()">Check</button>
+    <div id="result"></div>
+
+    <script>
+        async function checkPrime() {
+            const number = document.getElementById('numberInput').value;
+            const response = await fetch(`/api/is-prime?number=${number}`);
+            const data = await response.json();
+
+            const resultDiv = document.getElementById('result');
+            if (data.error) {
+                resultDiv.textContent = `Error: ${data.error}`;
+                resultDiv.style.color = "red";
+            } else {
+                resultDiv.textContent = `Number ${data.number} is ${data.isPrime ? 'prime ✅' : 'not prime ❌'}`;
+                resultDiv.style.color = data.isPrime ? "green" : "red";
+            }
+        }
+    </script>
+</body>
+</html>
